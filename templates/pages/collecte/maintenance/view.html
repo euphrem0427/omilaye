@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <form class="form-horizontal" method = "POST">
+                {% csrf_token %}
+                <div class="card-body">
+                    <h4 class="card-title text-center">Maintenance sur {{maintenance.site.title}}</h4>
+                    {% for detail in details %}
+                        <div class="form-group row">
+                            <label for="fname" class="col-sm-3 text-right control-label col-form-label">{{detail.setting.title}}</label>
+                            <div class="col-sm-9">
+                                <input type="text" disabled value="{{detail.value}}" class="form-control" id="fname" placeholder="Quantité de gazoil en litre">
+                            </div>
+                        </div>
+                    {% endfor %}
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
