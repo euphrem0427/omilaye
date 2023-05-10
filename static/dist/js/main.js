@@ -1,11 +1,11 @@
 $(function() {
     "use strict";
     /** disable input until checkbox not checked */
-    $('#checksolaire').change(function () {
+    $('#checkSolaire').change(function () {
         $('#solaire').prop("disabled", !this.checked);
     }).change()
 
-    $('#checkgroupe').change(function () {
+    $('#checkGroupe').change(function () {
         $('#groupe').prop("disabled", !this.checked);
     }).change()
 

@@ -1,0 +1,208 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card p-4">
+           <h1>Collecte sur le site {{site.title}} par {{request.user.username}}</h1>
+           <form class="p-5" method="post">
+            {% csrf_token %}
+            <div class="form-row my-2">
+              <div class="form-group col-md-6">
+                <label for="index">Ancien Index</label>
+                <input type="number" id="ancien" class="form-control" {% if collectes == None %} value = "0" {% else %} value="{{collectes.index}}" {%endif%} id="index" placeholder="Ancien index" disabled>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="date">Date de relèvement</label>
+                <input type="text" class="form-control" {% if collectes == None %} value = "Pas de date" {% else %}  value="{{collectes.date}}" {%endif%} id="date" placeholder="Date de relèvement" disabled>
+              </div>
+            </div>
+            <div class="form-row my-2">
+                <div class="form-group col-md-2">
+                    <div class="form-check mt-3">
+                        <input class="form-check-input" type="checkbox" value="" id="checkProdCalc">
+                        <label class="form-check-label" for="">
+                            Production Calculée
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-5">
+                    <label for="date">Nouveau Index</label>
+                    <input type="number" name ="index" class="form-control" id="NouveaIndex" placeholder="Nouveau index">
+                </div>
+                <div class="form-group col-md-5">
+                    <label for="prodCal">Production</label>
+                    <input type="number" class="form-control" id="prodCal" placeholder="Production calculée" disabled>
+                </div>
+            </div>
+            <div class="form-row my-2">
+                <div class="form-group col-md-2">
+                    <div class="form-check mt-4">
+                        <input class="form-check-input" type="checkbox" value="" id="checkprodEst">
+                        <label class="form-check-label" for="prodEst">
+                            Production Estimée
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-10">
+                    <label for="date">Production</label>
+                    <input type="number" name ="production_estimer" class="form-control" id="prodEst" placeholder="Production estimée">
+                </div>
+            </div>
+            <div class="form-row my-2">
+                <div class="form-group col-md-2">
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" value="" id="checkSolaire">
+                        <label class="form-check-label" for="defaultCheck1">
+                            Panneau Solaire
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-10">
+                    <input type="text" class="form-control" name="solaire" id="solaire" placeholder="Panneau solaire...">
+                </div>
+            </div>
+            <div class="form-row my-2">
+                <div class="form-group col-md-2">
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" value="" id="checkGroupe">
+                        <label class="form-check-label" for="defaultCheck1">
+                            Groupe Electrogène
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-10">
+                    <input type="text" class="form-control" name="groupe_electro" id="groupe" placeholder="Groupe électrogène...">
+                </div>
+            </div>
+            <div class="form-row my-2">
+                <div class="form-group col-md-2">
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" value="" id="checkSbee">
+                        <label class="form-check-label" for="defaultCheck1">
+                            SBBE
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-10">
+                    <input type="text" class="form-control" name="sbee" id="sbee" placeholder="SBEE...">
+                </div>
+            </div>
+            <div class="form-row my-2">
+                <div class="form-group col-md-2">
+                    <div class="form-check mt-4">
+                        <input class="form-check-input" type="checkbox" value="" id="checkPannes">
+                        <label class="form-check-label" for="defaultCheck1">
+                            Pannes
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-5">
+                    <label for="pannes">Nombre de panne</label>
+                    <input type="number" class="form-control" name="nbre_panne" id="pannes" placeholder="Nombre de panne..." required>
+                </div>
+                <div class="form-group col-md-5">
+                    <label for="description_panne">Description</label>
+                    <textarea class="form-control" name="description_panne" id="pannedesc" rows="3" placeholder="Veuillez décrire chaque panne...." required></textarea>
+                </div>
+            </div>
+            <div class="form-row my-2">
+                <div class="form-group col-md-2">
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" value="" id="checkOsb">
+                        <label class="form-check-label" for="defaultCheck1">
+                            Observation
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-10">
+                    <textarea class="form-control" id="observation" rows="3" placeholder="Observation...." required></textarea>
+                </div>
+            </div>
+            <div class="form-row my-2">
+                <div class="form-group col-md-2">
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" value="" id="checkAutres">
+                        <label class="form-check-label" for="defaultCheck1">
+                            Autres
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-10">
+                    <input type="text" class="form-control" name="autres" id="autres" placeholder="Autres détails...">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-secondary w-100 p-2">Soumettre</button>
+          </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block extrascript %}
+<script>
+    $(function() {
+    "use strict";
+    
+    /** disable input until checkbox not checked */
+    $('#checkSolaire').change(function () {
+        $('#solaire').prop("disabled", !this.checked);
+    }).change()
+    $('#checkprodEst').change(function () {
+        $('#prodEst').prop("disabled", !this.checked);
+    }).change()
+
+    $('#checkGroupe').change(function () {
+        $('#groupe').prop("disabled", !this.checked);
+    }).change()
+
+    $('#checkProdCalc').change(function () {
+        $('#NouveaIndex').prop("disabled", !this.checked);
+    }).change()
+
+    $('#checkSbee').change(function () {
+        $('#sbee').prop("disabled", !this.checked);
+    }).change()
+
+    $('#checkwaterwQT').change(function () {
+        $('#water').prop("disabled", !this.checked);
+    }).change()
+
+    $('#checkOsb').change(function () {
+        $('#observation').prop("disabled", !this.checked);
+    }).change()
+
+    $('#checkPannes').change(function () {
+        $('#pannes').prop("disabled", !this.checked);
+    }).change()
+
+    $('#checkPannes').change(function () {
+        $('#pannedesc').prop("disabled", !this.checked);
+    }).change()
+    
+    $('#checkprod').change(function () {
+        $('#prod').prop("disabled", !this.checked);
+    }).change()
+
+    $('#checkAutres').change(function () {
+        $('#autres').prop("disabled", !this.checked);
+    }).change()
+
+    //script to calculate production
+    $(document).ready(function() {
+        //this calculates values automatically 
+        Subtract();
+        $("#ancien, #NouveaIndex").on("keydown keyup", function() {
+            Subtract();
+        });
+    });
+    function Subtract() {
+                var ancien = document.getElementById('ancien').value;
+                var nouveau = document.getElementById('NouveaIndex').value;
+                var result = parseInt(nouveau) - parseInt(ancien);
+                if (!isNaN(result)) {
+                    document.getElementById('prodCal').value = result;
+                }
+            }
+
+});
+</script>
+{% endblock extrascript %}

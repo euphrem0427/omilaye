@@ -198,7 +198,7 @@ class CollectOnSite(models.Model):
         Site,
         on_delete=models.CASCADE,
         null = True
-    )
+    ) 
     solaire = models.CharField(max_length=100, null=True)
     groupe_electro = models.CharField(max_length=100, null=True)
     index= models.IntegerField(null=True)
@@ -214,7 +214,7 @@ class CollectOnSite(models.Model):
     description_panne = models.TextField(null = True)
     production_estimer = models.CharField(max_length=100,null = True)
     autres= models.TextField(null=True)
-    date = models.DateField(auto_now_add=True,null = True)
+    date = models.DateTimeField(auto_now_add=True,null = True)
     class Meta:
         verbose_name = _("CollectOnSite")
         verbose_name_plural = _("CollectOnSites")
@@ -231,6 +231,10 @@ class ParametersWaterQuality(models.Model):
     humidity = models.FloatField(null = True, blank = True)
     chlore = models.FloatField(null = True, blank = True)
     date_time = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    is_active = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = _("Paramètres qualité de l'eau")
 
     def __str__(self):
         return str(self.id)

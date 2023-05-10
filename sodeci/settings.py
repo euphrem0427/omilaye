@@ -105,7 +105,7 @@ EMAIL_HOST = 'in-v3.mailjet.com'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_PORT = 25
-EMAIL_HOST_USER = 'euphrem0427@gmail.com'
+EMAIL_HOST_USER = 'sup@it-servicegroup.com'
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 # Database

@@ -62,7 +62,7 @@ def reset_password(request):
             mail = EmailMultiAlternatives(
                 subject,
                 plain_message,
-                'OMILAYE <euphrem0427@gmail.com>' ,
+                'OMILAYE <sup@it-servicegroup.com>' ,
                 [email]
             )
             mail.attach_alternative(html_message, 'text/html')
@@ -105,6 +105,7 @@ def add_user(request):
             subject = "Création de compte"
             email_template_name = "partials/mails/user_creation.html"
             ctxt = {
+                "groupe": groups,
                 "name": user.first_name,
                 "link": "http://omilaye.it-servicegroup.com/accounts/set_password/" + str(user.username) + "/"
             }
@@ -113,7 +114,7 @@ def add_user(request):
             mail = EmailMultiAlternatives(
                 subject,
                 plain_message,
-                'OMILAYE <euphrem0427@gmail.com>' ,
+                'OMILAYE <sup@it-servicegroup.com>' ,
                 [email]
             )
             mail.attach_alternative(html_message, 'text/html')
@@ -132,8 +133,11 @@ def add_user(request):
 
 @unauthentificated_user
 def first_login(request, username):
+    try:
+        user = User.objects.get(username=username)
+    except:
+        user = None
 
-    user = User.objects.get(username=username)
     if request.POST:
         password = request.POST['password1']
         user.set_password(password)
@@ -142,7 +146,6 @@ def first_login(request, username):
            
     context = {'user': user}
     return render(request, 'accounts/first_login.html', context)
-
 
 @login_required(login_url='login')
 def edit_user(request, id):

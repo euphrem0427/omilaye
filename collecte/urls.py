@@ -5,9 +5,9 @@ urlpatterns = [
     path('choice_site_collect/', choice_site_collect, name="choice_site_collect"),
     #path('create_site_collect/<int:id>/', create_site_collect),
     path('water_quality/<int:id>/', water_quality),
-    path('add_collect_on_site/<int:id>/', add_collect_on_site),
     path('view_site_collect/<int:id>/', view_site_collect),
     path('delete_site_collect/<int:id>/', delete_site_collect),
+    path('collecte/<int:id>/add', collectSite),
 
     path('add_pwq/', add_parameterwaterquality),
     path('view_pwq/<int:id>/', view_parameterwaterquality,name="list_of_parameters"),

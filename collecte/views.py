@@ -76,7 +76,7 @@ def choice_site_collect(request):
 #     return render(request, 'pages/collecte/maintenance/add.html', context)
 
 @login_required(login_url='login')
-def add_collect_on_site(request, id):
+def collectSite(request,id):
     sites = Site.objects.get(id=id)
     try:
         collectes = CollectOnSite.objects.filter(site=sites).last()
@@ -107,7 +107,8 @@ def add_collect_on_site(request, id):
         return redirect('site_collect_list')
         
     context={'site':sites,'collectes':collectes}
-    return render(request, 'pages/collecte/site/add.html', context)
+
+    return render(request,'pages/collecte/site/ajouter.html',context)
 
 def water_quality(request, id):
     water_quality = WaterQuality.objects.get(id=id)
@@ -125,16 +126,14 @@ def water_quality(request, id):
         
     context={'water_quality':water_quality}
     return render(request, 'pages/collecte/site/water.html', context)
-    
-
            
 
 @login_required(login_url='login')
 def view_site_collect(request, id):
     collect = CollectOnSite.objects.get(id=id)
-    parameterph = ParametersWaterQuality.objects.all().values('ph')
-    parameterhumidity = ParametersWaterQuality.objects.all().values('humidity')
-    parameterchlore = ParametersWaterQuality.objects.all().values('chlore')
+    parameterph = ParametersWaterQuality.objects.all().filter(is_active=True).values('ph')
+    parameterhumidity = ParametersWaterQuality.objects.all().filter(is_active=True).values('humidity')
+    parameterchlore = ParametersWaterQuality.objects.all().filter(is_active=True).values('chlore')
     
     tauxph = get_ph_standard_value(parameterph,collect.water_quality.ph_in_site)
     tauxph_out = get_ph_standard_value(parameterph,collect.water_quality.ph_out_site)
