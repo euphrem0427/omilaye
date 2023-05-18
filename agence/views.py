@@ -4,7 +4,7 @@ from .forms import *
 from .utils import *
 from django.contrib.auth.decorators import login_required
 from accounts.decorators import *
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from accounts.models import StatusHistory
 # Create your views here
 
@@ -389,6 +389,24 @@ def delete_commune(request, id):
     commune.delete()
     return redirect('list_commune')
 
+# Get department based on agence
+def get_dept(request,agence):
+    try:
+        agence = Agence.objects.get(id=agence)
+    except:
+        return JsonResponse({
+            'ok':'False',
+            'error':'Agence not exist',
+        })
+    
+    dept = agence.departement.id
+    if dept:
+        return HttpResponse(dept)
+    else:
+        return JsonResponse({
+            'ok':'True',
+            'msg':'Dept not exist for this agence',
+        })
 """Commune based on department"""
 
 def get_commune(request,departement):

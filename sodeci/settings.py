@@ -100,13 +100,13 @@ MAILJET_API_KEY  = os.getenv('MAILJET_API_KEY')
 MAILJET_API_SECRET  = os.getenv('MAILJET_API_SECRET')
 
 # Send mail config
-EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
-EMAIL_HOST = 'in-v3.mailjet.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_FROM = 'ernestdossa.9@gmail.com'
+EMAIL_HOST_USER = 'ernestdossa.9@gmail.com'
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
-EMAIL_PORT = 25
-EMAIL_HOST_USER = 'sup@it-servicegroup.com'
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_PASSWORD = 'tuesbiqusubbagsw'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases

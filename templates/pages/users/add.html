@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            <form class="form-horizontal" method="POST">
+            <form class="form-horizontal" action="{% url 'add_user' %}" method="post">
                 {% csrf_token %}
                 <div class="card-body">
                     <h4 class="card-title">Information sur l'agent</h4>

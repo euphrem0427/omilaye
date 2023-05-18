@@ -61,7 +61,7 @@ $(function() {
                     document.getElementById('subt').value = result;
                 }
             }
-
+    
     //script to get commune filter by departement
     $("#formAdd select[name='departement']").on('change',function(){
         console.log('Bien changé');

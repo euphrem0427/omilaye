@@ -16,7 +16,6 @@
                                     <option value="{{agence.id}}">{{agence.title}}</option>
                                 {% endfor %}
                             </select>
-                            
                         </div>
                     </div>
                     <div class="form-group row">
@@ -24,9 +23,7 @@
                         <div class="col-md-9">
                             <select name="departement" class="select2 form-control custom-select" style="width: 100%; height:36px;">
                                 <option>Selectionner</option>
-                                {% for departement in departements %}
-                                    <option value="{{departement.id}}">{{departement.name}}</option>
-                                {% endfor %}
+                               
                             </select>
                             
                         </div>
@@ -69,3 +66,34 @@
     </div>
 </div>
 {% endblock content %}
+
+{% block extrascript %}
+<script>
+    //script to get commune filter by departement
+    $("#formAdd select[name='agence']").on('change',function(){
+        console.log('Bien changé');
+        var $this = $(this);
+  
+        if ($this.val() != ''){
+            $("#formAdd select[name='departement']").find('.after').nextAll().remove();
+            $.ajax({
+                url:'agence/list-departement/'+$this.val(),
+                type:'GET',
+                success: function(response){
+                    let options = '';
+                    response.data.forEach(departement => {
+                        options+='<option value='+departement.id+'>'+departement.name+'</option>';
+                    });
+                    $("#formAdd select[name='departement']").find('.after').after(options);
+
+                },
+                error: function(reponse){
+                    console.log('Aucun departement n\'existe pour cette agence');
+                }
+            });
+        }else{
+            $("#formAdd select[name='departement']").find('.after').nextAll().remove();
+        }
+    });
+</script>
+{% endblock %}

@@ -55,14 +55,14 @@ def reset_password(request):
             email_template_name = "partials/mails/user_creation.html"
             ctxt = {
                 "name": user.first_name,
-                "link": "http://omilaye.it-servicegroup.com/accounts/set_password/" + str(user.username) + "/"
+                "link": "127.0.0.1:8000/accounts/set_password/" + str(user.username) + "/"
             }
             html_message = render_to_string(email_template_name, ctxt)
             plain_message = strip_tags(html_message)
             mail = EmailMultiAlternatives(
                 subject,
                 plain_message,
-                'OMILAYE <sup@it-servicegroup.com>' ,
+                'OMILAYE <ernestdossa.9@gmail.com>' ,
                 [email]
             )
             mail.attach_alternative(html_message, 'text/html')
@@ -93,6 +93,7 @@ def add_user(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
+            print(form)
             user = form.save(commit = False)
             user.username = username_generator()
             email = form.cleaned_data['email']
@@ -107,20 +108,22 @@ def add_user(request):
             ctxt = {
                 "groupe": groups,
                 "name": user.first_name,
-                "link": "http://omilaye.it-servicegroup.com/accounts/set_password/" + str(user.username) + "/"
+                "link": "http://127.0.0.1:8000/accounts/set_password/" + str(user.username) + "/"
             }
             html_message = render_to_string(email_template_name, ctxt)
             plain_message = strip_tags(html_message)
             mail = EmailMultiAlternatives(
                 subject,
                 plain_message,
-                'OMILAYE <sup@it-servicegroup.com>' ,
+                'OMILAYE <ernestdossa.9@gmail.com>' ,
                 [email]
             )
             mail.attach_alternative(html_message, 'text/html')
             mail.send()
             
             return redirect('list_users')
+        else:
+            return redirect('add_user')
     context ={
         'sites':sites,
         'agences':agences,

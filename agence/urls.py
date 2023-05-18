@@ -27,6 +27,7 @@ urlpatterns = [
     path('change_status/<int:id>/', change_status),
 
     #Commune & departement
+    path('agence/list-departement/<str:agence>', get_dept, name = 'list-departement'),
     path('list_departement', list_departement, name = 'list_departement'),
     path('add_departement', add_departement, name = 'add_departement'),
     path('delete_departement/<int:id>/', delete_departement),
