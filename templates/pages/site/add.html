@@ -81,7 +81,7 @@
                 type:'GET',
                 success: function(response){
                     let options = '';
-                    response.data.forEach(departement => {
+                    response.dept.forEach(departement => {
                         options+='<option value='+departement.id+'>'+departement.name+'</option>';
                     });
                     $("#formAdd select[name='departement']").find('.after').after(options);

@@ -7,6 +7,7 @@ from accounts.decorators import *
 from django.http import JsonResponse,HttpResponse
 from accounts.models import StatusHistory
 # Create your views here
+import json
 
 
 ########################################################################
@@ -399,7 +400,7 @@ def get_dept(request,agence):
             'error':'Agence not exist',
         })
     
-    dept = agence.departement.id
+    dept = agence.departement.all()
     if dept:
         return HttpResponse(dept)
     else:
