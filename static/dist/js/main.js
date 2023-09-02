@@ -53,6 +53,24 @@ $(function() {
             Subtract();
         });
     });
+    // Lorsque l'état de la case à cocher change
+    $('#checkProdCalc').change(function() {
+        // Si la case à cocher est désactivée
+        if (!$(this).is(':checked')) {
+            // Vider le champ input
+            $('#NouveaIndex').val('');
+        }
+    });
+    $(document).ready(function() {
+    // Lorsque l'état de la case à cocher change
+    $('#checkProdCalc').change(function() {
+        // Si la case à cocher est désactivée
+        if (!$(this).is(':checked')) {
+            // Vider le champ input
+            $('#NouveaIndex').val('');
+        }
+    });
+});
     function Subtract() {
                 var ancien = document.getElementById('ancien').value;
                 var nouveau = document.getElementById('nouveau').value;
@@ -61,32 +79,4 @@ $(function() {
                     document.getElementById('subt').value = result;
                 }
             }
-    
-    //script to get commune filter by departement
-    $("#formAdd select[name='departement']").on('change',function(){
-        console.log('Bien changé');
-        var $this = $(this);
-  
-        if ($this.val() != ''){
-            $("#formAdd select[name='commune']").find('.after').nextAll().remove();
-            $.ajax({
-                url:'departement/list_communes/'+$this.val(),
-                type:'GET',
-                success: function(response){
-                    let options = '';
-                    response.data.forEach(commune => {
-                        options+='<option value='+commune.id+'>'+commune.name+'</option>';
-                    });
-                    $("#formAdd select[name='commune']").find('.after').after(options);
-
-                },
-                error: function(response){
-                    console.log('Aucune commune n\'existe pour ce département');
-                }
-            });
-        }else{
-            $("#formAdd select[name='commune']").find('.after').nextAll().remove();
-        }
-    });
-
 });

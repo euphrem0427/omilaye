@@ -168,13 +168,14 @@ def list_settings(request):
 
 @login_required(login_url='login')
 def add_setting(request):
+    categories = CategoryMaintenance.objects.all()
     form = SettingForm()
     if request.method == 'POST':
         form = SettingForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('list_setting')
-    context={}
+    context={'categories':categories}
     return render(request, 'pages/setting/maintenance/add.html', context)
 
 """Parameters water Quality"""
@@ -297,7 +298,8 @@ def add_maintenance(request, id):
         return redirect('list_maintenance')
 
     context={
-        'settings': settings
+        'settings': settings,
+        'site':site
     }
     return render(request, 'pages/collecte/maintenance/add.html', context)
 

@@ -391,18 +391,21 @@ def delete_commune(request, id):
     return redirect('list_commune')
 
 # Get department based on agence
-def get_dept(request,agence):
+def get_dept(request,agence_id):
     try:
-        agence = Agence.objects.get(id=agence)
+        agence_id = Agence.objects.get(id=agence_id)
     except:
         return JsonResponse({
             'ok':'False',
             'error':'Agence not exist',
         })
+    dept = agence_id.departement.name
+    obj = {
+        dept
+        }
     
-    dept = agence.departement.all()
-    if dept:
-        return HttpResponse(dept)
+    if obj:
+        return JsonResponse({'data':list(obj)},safe=False)
     else:
         return JsonResponse({
             'ok':'True',
@@ -410,20 +413,42 @@ def get_dept(request,agence):
         })
 """Commune based on department"""
 
-def get_commune(request,departement):
+def get_commune(request,dept_name):
     try:
-        departement = Departement.objects.get(id=departement)
+        departement = Departement.objects.filter(name__icontains=dept_name).values('id','name')
+        print(departement)
+        deptId = departement.values_list('id', flat=True)
+        print(deptId)
     except:
         return JsonResponse({
             'ok':'False',
             'error':'Department not exist',
         })
     
-    communes = Commune.objects.filter(departement=departement).values('id','name')
+    communes = Commune.objects.filter(departement=deptId).values('id','name')
     if communes:
-        return JsonResponse({'data':list(communes)},safe=False)
+        return JsonResponse({'communesList':list(communes)},safe=False)
     else:
         return JsonResponse({
             'ok':'True',
             'msg':'Commune not exist for this department',
         })
+
+def getSite(request,agence):
+    try:
+        monagence = Agence.objects.get(id=agence)
+    except : 
+        return JsonResponse({
+            'ok':'False',
+            'error':'Agence not exist',
+        })
+    
+    sites = Site.objects.filter(agence=monagence).values('id','title')
+    if sites:
+        return JsonResponse({'data':list(sites)},safe=False)
+    else : 
+        return JsonResponse({
+            'ok':'False',
+            'msg':'Sites not exist for this agency'
+        })
+    

@@ -6,16 +6,62 @@
             <form class="form-horizontal" method = "POST">
                 {% csrf_token %}
                 <div class="card-body">
-                    <h4 class="card-title text-center">Collecte sur {{site.title}}</h4>
-                    {% for set in settings %}
-                    <div class="form-group row">
-                        <label for="fname" class="col-sm-3 text-right control-label col-form-label">{{set.title}}</label>
-                        <input type="checkbox" name="is_exist{{set.id}}" id="check" class="form-control col-sm-2">
-                        <div class="col-sm-7">
-                            <input type="text" name="{{set.id}}" class="form-control" id="fname" placeholder="{{set.title}}">
+                    <h4 class="card-title text-center mb-4">Maintenance sur {{site.title}}</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div>
+                                <h3>Catégorie Réseau</h3>
+                            </div>
+                            <div class="container mt-3">
+                                {% for set in settings %}
+                            {% if set.category.designation == "Réseaux"%}
+                            <div class="form-row my-2">
+                                <div class="form-group col-md-4">
+                                    <div class="form-check mt-2">
+                                        <input class="form-check-input" class="checkPara" type="checkbox" value="" name="is_exist{{set.id}}" id="checkPara">
+                                        <label class="form-check-label" for="defaultCheck1">
+                                            {{set.title}}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <input type="text" class="form-control parameter" name="{{set.id}}" id="parameter" placeholder="{{set.title}}">
+                                </div>
+                            </div>
+                            {%else%}
+                            {%endif%}
+                            
+                            {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                <h3>Catégorie Station</h3>
+                            </div>
+                            <div class="container mt-3">
+                                {% for set in settings %}
+                            {% if set.category.designation == "Station"%}
+                            <div class="form-row my-2">
+                                <div class="form-group col-md-5">
+                                    <div class="form-check mt-2">
+                                        <input class="form-check-input" class="checkPara" type="checkbox" value="" name="is_exist{{set.id}}" id="checkPara">
+                                        <label class="form-check-label" for="defaultCheck1">
+                                            {{set.title}}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-7">
+                                    <input type="text" class="form-control parameter" name="{{set.id}}" id="parameter" placeholder="{{set.title}}">
+                                </div>
+                            </div>
+                            {%else%}
+                            {%endif%}
+                            
+                            {% endfor %}
+                            </div>
                         </div>
                     </div>
-                    {% endfor %}
+                    
                 </div>
                 <div class="border-top">
                     <div class="card-body">
@@ -27,3 +73,20 @@
     </div>
 </div>
 {% endblock content %}
+{% block extrascript %}
+<!--<script>
+     /** disable input until checkbox not checked */
+     $('#checkPara').change(function () {
+        $('.parameter').prop("disabled", !this.checked);
+    }).change()
+
+    // Lorsque l'état de la case à cocher change
+  $('#checkPara').change(function() {
+        // Si la case à cocher est désactivée
+        if (!$(this).is(':checked')) {
+            // Vider le champ input
+            $('.parameter').val('');
+        }
+    });
+</script>-->
+{% endblock %}

@@ -9,9 +9,12 @@
                     <h4 class="card-title text-center">Maintenance sur {{maintenance.site.title}}</h4>
                     {% for detail in details %}
                         <div class="form-group row">
-                            <label for="fname" class="col-sm-3 text-right control-label col-form-label">{{detail.setting.title}}</label>
-                            <div class="col-sm-9">
+                            <label for="fname" class="col-sm-2 text-right control-label col-form-label">{{detail.setting.title}}</label>
+                            <div class="col-sm-5">
                                 <input type="text" disabled value="{{detail.value}}" class="form-control" id="fname" placeholder="Quantité de gazoil en litre">
+                            </div>
+                            <div class="col-sm-5">
+                                <input type="text" disabled value="{{detail.setting.category.designation}}" class="form-control" id="fname" placeholder="Quantité de gazoil en litre">
                             </div>
                         </div>
                     {% endfor %}

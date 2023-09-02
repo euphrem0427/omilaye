@@ -37,10 +37,13 @@ class CustomerCollecte(models.Model):
     def get_absolute_url(self):
         return reverse("Site_Collecte_detail", kwargs={"pk": self.pk})
 
-
+class CategoryMaintenance(models.Model):
+    designation = models.CharField(_('designation'), max_length=255)
+    def __str__(self):
+        return self.designation
 
 class Setting(models.Model):
-
+    category = models.ForeignKey(CategoryMaintenance, on_delete=models.CASCADE)
     title = models.CharField(max_length=254, verbose_name=_("Nom du parametre"))
     description = models.TextField(_("Description"), null=True, blank=True)
 
@@ -53,6 +56,7 @@ class Setting(models.Model):
 
     def get_absolute_url(self):
         return reverse("Setting_detail", kwargs={"pk": self.pk})
+    
 
 class Maintenance(models.Model):
 
@@ -104,7 +108,7 @@ class MaintenanceDetail(models.Model):
         return reverse("MaintenanceDetail_detail", kwargs={"pk": self.pk})
 
 class SettingSite(models.Model):
-
+    
     title = models.CharField(max_length=254, verbose_name=_("Nom du parametre"))
     description = models.TextField(_("Description"), null=True, blank=True)
 
@@ -113,7 +117,7 @@ class SettingSite(models.Model):
         verbose_name_plural = _("SettingSites")
 
     def __str__(self):
-        return self.name
+        return self.title
 
     def get_absolute_url(self):
         return reverse("SettingSite_detail", kwargs={"pk": self.pk})

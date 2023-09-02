@@ -19,7 +19,7 @@
             <div class="form-row my-2">
                 <div class="form-group col-md-2">
                     <div class="form-check mt-3">
-                        <input class="form-check-input" type="checkbox" value="" id="checkProdCalc">
+                        <input class="form-check-input custom-checkbox" type="checkbox" value="" id="checkProdCalc">
                         <label class="form-check-label" for="">
                             Production Calculée
                         </label>
@@ -30,14 +30,14 @@
                     <input type="number" name ="index" class="form-control" id="NouveaIndex" placeholder="Nouveau index">
                 </div>
                 <div class="form-group col-md-5">
-                    <label for="prodCal">Production</label>
+                    <label for="prodCal">Production totale du site</label>
                     <input type="number" class="form-control" id="prodCal" placeholder="Production calculée" disabled>
                 </div>
             </div>
             <div class="form-row my-2">
                 <div class="form-group col-md-2">
                     <div class="form-check mt-4">
-                        <input class="form-check-input" type="checkbox" value="" id="checkprodEst">
+                        <input class="form-check-input custom-checkbox" type="checkbox" value="" id="checkprodEst">
                         <label class="form-check-label" for="prodEst">
                             Production Estimée
                         </label>
@@ -75,18 +75,34 @@
                 </div>
             </div>
             <div class="form-row my-2">
+                <div class="form-group col-md-6">
+                  <label for="index">SBEE Ancien Index</label>
+                  <input type="number" id="ancienSBEE" class="form-control" {% if collectes == None %} value = "0" {% else %} value="{{collectes.sbee}}" {%endif%} id="sbee" placeholder="Ancien index" disabled>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="date">Date de relèvement</label>
+                  <input type="text" class="form-control" {% if collectes == None %} value = "{{collectes.date}}" {% else %}  value="{{collectes.date}}" {%endif%} id="date" placeholder="Date de relèvement" disabled>
+                </div>
+              </div>
+            <div class="form-row my-2">
                 <div class="form-group col-md-2">
-                    <div class="form-check mt-2">
-                        <input class="form-check-input" type="checkbox" value="" id="checkSbee">
-                        <label class="form-check-label" for="defaultCheck1">
-                            SBBE
+                    <div class="form-check mt-3">
+                        <input class="form-check-input" type="checkbox" value=""id="checkSbee">
+                        <label class="form-check-label" for="">
+                            SBEE
                         </label>
                     </div>
                 </div>
-                <div class="form-group col-md-10">
-                    <input type="text" class="form-control" name="sbee" id="sbee" placeholder="SBEE...">
+                <div class="form-group col-md-5">
+                    <label for="date">Nouveau Index</label>
+                    <input type="number" name ="sbee" class="form-control" id="sbee" placeholder="SBEE nouveau index">
+                </div>
+                <div class="form-group col-md-5">
+                    <label for="sbeePro">Production SBEE</label>
+                    <input type="number" class="form-control" id="sbeePro" placeholder="Production calculée" disabled>
                 </div>
             </div>
+            
             <div class="form-row my-2">
                 <div class="form-group col-md-2">
                     <div class="form-check mt-4">
@@ -141,7 +157,7 @@
 <script>
     $(function() {
     "use strict";
-    
+
     /** disable input until checkbox not checked */
     $('#checkSolaire').change(function () {
         $('#solaire').prop("disabled", !this.checked);
@@ -185,24 +201,43 @@
     $('#checkAutres').change(function () {
         $('#autres').prop("disabled", !this.checked);
     }).change()
-
-    //script to calculate production
-    $(document).ready(function() {
-        //this calculates values automatically 
-        Subtract();
-        $("#ancien, #NouveaIndex").on("keydown keyup", function() {
-            Subtract();
-        });
+    $('.custom-checkbox').on('change', function() {
+    if ($(this).prop('checked')) {
+      $('.custom-checkbox').not(this).prop('disabled', true);
+    } else {
+      $('.custom-checkbox').prop('disabled', false);
+    }
+  });
+  // Lorsque l'état de la case à cocher change
+  $('#checkProdCalc').change(function() {
+        // Si la case à cocher est désactivée
+        if (!$(this).is(':checked')) {
+            // Vider le champ input
+            $('#NouveaIndex').val('');
+            $('#prodCal').val('');
+        }
     });
-    function Subtract() {
-                var ancien = document.getElementById('ancien').value;
-                var nouveau = document.getElementById('NouveaIndex').value;
-                var result = parseInt(nouveau) - parseInt(ancien);
-                if (!isNaN(result)) {
-                    document.getElementById('prodCal').value = result;
-                }
-            }
-
+    $('#checkSbee').change(function() {
+        // Si la case à cocher est désactivée
+        if (!$(this).is(':checked')) {
+            // Vider le champ input
+            $('#sbee').val('');
+            $('#sbeePro').val('');
+        }
+    });
+    //script to calculate production
+    $("#ancien, #NouveaIndex").on("input", function() {
+        var valeur1 = parseFloat($("#ancien").val()) || 0; // Si la valeur n'est pas un nombre, on considère 0
+        var valeur2 = parseFloat($("#NouveaIndex").val()) || 0;
+        var sub = valeur2 - valeur1;
+        $("#prodCal").val(sub);
+    });
+    $("#ancienSBEE, #sbee").on("input", function() {
+        var valeur1 = parseFloat($("#ancienSBEE").val()) || 0; // Si la valeur n'est pas un nombre, on considère 0
+        var valeur2 = parseFloat($("#sbee").val()) || 0;
+        var sub = valeur2 - valeur1;
+        $("#sbeePro").val(sub);
+    });
 });
 </script>
 {% endblock extrascript %}

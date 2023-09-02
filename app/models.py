@@ -16,10 +16,11 @@ class Agence(models.Model):
     adresse = models.CharField(_('Adresse'), null=True, blank=True, max_length=255)
     phone = PhoneNumberField(_('Contact'), null = True, blank = True)
     email  = models.EmailField(_('Email'), null = True, blank = True)
-    departement = models.ManyToManyField(
+    departement = models.ForeignKey(
         Departement,
         null = True, 
-        blank = True
+        blank = True,
+        on_delete = models.CASCADE,
         )
 
 

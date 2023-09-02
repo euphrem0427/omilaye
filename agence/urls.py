@@ -26,17 +26,19 @@ urlpatterns = [
     path('export_abonne', export_abonne, name = 'export_abonne'),
     path('change_status/<int:id>/', change_status),
 
-    #Commune & departement
-    path('agence/list-departement/<str:agence>', get_dept, name = 'list-departement'),
+    #Commune & departement 
+    path('get-departement/<str:agence_id>', get_dept, name = 'get-departement'),
     path('list_departement', list_departement, name = 'list_departement'),
     path('add_departement', add_departement, name = 'add_departement'),
     path('delete_departement/<int:id>/', delete_departement),
     path('view_departement/<int:id>/', view_departement),
 
     path('list_commune', list_commune, name = 'list_commune'),
-    path('departement/list_communes/<str:departement>', get_commune, name = 'list_communes'),
+    path('get-communes/<str:dept_name>', get_commune, name = 'get-communes'),
     path('add_commune', add_commune, name = 'add_commune'),
     path('delete_commune/<int:id>/', delete_commune),
     path('view_commune/<int:id>/', view_commune),
+
+    path('get-site/<int:agence>',getSite)
 
 ]

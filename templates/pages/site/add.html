@@ -10,7 +10,7 @@
                     <div class="form-group row">
                         <label for="fname" class="col-sm-3 text-right control-label col-form-label">Agence</label>
                         <div class="col-md-9">
-                            <select name="agence" class="select2 form-control custom-select" style="width: 100%; height:36px;">
+                            <select name="agence" id="agence" class="select2 form-control custom-select" style="width: 100%; height:36px;">
                                 <option>Selectionner</option>
                                 {% for agence in agences %}
                                     <option value="{{agence.id}}">{{agence.title}}</option>
@@ -21,9 +21,8 @@
                     <div class="form-group row">
                         <label for="fname" class="col-sm-3 text-right control-label col-form-label">Département</label>
                         <div class="col-md-9">
-                            <select name="departement" class="select2 form-control custom-select" style="width: 100%; height:36px;">
-                                <option>Selectionner</option>
-                               
+                            <select name="departement" id="departement_options" class="select2 form-control custom-select" style="width: 100%; height:36px;">
+                                
                             </select>
                             
                         </div>
@@ -31,10 +30,8 @@
                     <div class="form-group row">
                         <label for="fname" class="col-sm-3 text-right control-label col-form-label">Commune</label>
                         <div class="col-md-9">
-                            <select name="commune" class="select2 form-control custom-select" style="width: 100%; height:36px;">
-                                <option class="after">Selectionner</option>
+                            <select name="commune" id="commune_options" class="select2 form-control custom-select" style="width: 100%; height:36px;">
                             </select>
-                            
                         </div>
                     </div>
                     <div class="form-group row">
@@ -69,31 +66,64 @@
 
 {% block extrascript %}
 <script>
-    //script to get commune filter by departement
-    $("#formAdd select[name='agence']").on('change',function(){
-        console.log('Bien changé');
-        var $this = $(this);
-  
-        if ($this.val() != ''){
-            $("#formAdd select[name='departement']").find('.after').nextAll().remove();
-            $.ajax({
-                url:'agence/list-departement/'+$this.val(),
-                type:'GET',
-                success: function(response){
-                    let options = '';
-                    response.dept.forEach(departement => {
-                        options+='<option value='+departement.id+'>'+departement.name+'</option>';
-                    });
-                    $("#formAdd select[name='departement']").find('.after').after(options);
+    $(document).ready(function() {
+        $('#agence').change(function() {
+            var selectedAgenceId = $(this).val();
+            console.log(selectedAgenceId);
 
+            // Make AJAX request to get options for the second select field
+            $.ajax({
+                url: 'get-departement/' + selectedAgenceId,
+                dataType: 'json',
+                success: function(response) {
+                    var options = response.data;
+
+                    // Clear previous options
+                    $('#departement_options').empty();
+
+                    // Append new options
+                    $.each(options, function(index, option) {
+                        $('#departement_options').append($('<option></option>').text('Sélectionner un département'));
+                        $('#departement_options').append($('<option></option>').attr('value', option).text(option));
+                    });
                 },
-                error: function(reponse){
-                    console.log('Aucun departement n\'existe pour cette agence');
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
                 }
             });
-        }else{
-            $("#formAdd select[name='departement']").find('.after').nextAll().remove();
-        }
+        });
     });
+</script>
+
+<script>
+    //script to get commune filter by departement
+    $(document).ready(function() {
+        $('#departement_options').change(function() {
+            var selectedDepartmentId = $(this).val();
+            console.log(selectedDepartmentId);
+
+            // Make AJAX request to get options for the second select field
+            $.ajax({
+                url: 'get-communes/' + selectedDepartmentId,
+                dataType: 'json',
+                success: function(response) {
+                    var options = response.communesList;
+                    
+                    // Clear previous options
+                    $('#commune_options').empty();
+                    console.log('je suis là')
+                    // Append new options
+                    $.each(options, function(index, option) {
+                        console.log('je suis là désormais')
+                        $('#commune_options').append($('<option></option>').attr('value', option.id).text(option.name));
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+
 </script>
 {% endblock %}

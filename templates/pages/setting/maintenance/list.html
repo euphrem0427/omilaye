@@ -20,6 +20,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Nom</th>
+                                <th>Catégorie</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -28,6 +29,7 @@
                             <tr>
                                 <td>{{forloop.counter}}</td>
                                 <td>{{setting.title}}</td>
+                                <td>{{setting.category.designation}}</td>
                                 <td>
                                     <a href="/view_setting/{{setting.id}}" class="btn btn-success m-1"><i class="fas fa-eye"></i></a>
                                     <a href="/delete_setting/{{setting.id}}" class="btn btn-danger m-1"><i class="fas fa-trash"></i></a>
